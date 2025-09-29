@@ -43,4 +43,12 @@ export class TenantService {
       `CREATE SCHEMA IF NOT EXISTS "${schemaName}"`,
     );
   }
+
+  async findTenantBySubdomain(subdomain: string): Promise<Tenant | null> {
+    return await this.tenantRepository.findOne({});
+  }
+
+  async findTenantById(id: string): Promise<Tenant | null> {
+    return await this.tenantRepository.findOne({});
+  }
 }
