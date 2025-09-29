@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Photo {
@@ -8,13 +8,13 @@ export class Photo {
   @Column({ length: 500 })
   name: string;
 
-  @Column('text')
+  @Column("text")
   description: string;
 
   @Column()
   filename: string;
 
-  @Column('int')
+  @Column("int")
   views: number;
 
   @Column()
