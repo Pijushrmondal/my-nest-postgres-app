@@ -7,6 +7,7 @@ import { TenantModule } from "./module/tenent/tenant.module";
 import { ConfigModule } from "@nestjs/config";
 import { TenantConnectionManager } from "./config/tenant-connection.manager";
 import { TenantResolverMiddleware } from "./middleware/tenant-resolver.middleware";
+import { UserModule } from "./module/user/user.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TenantResolverMiddleware } from "./middleware/tenant-resolver.middlewar
       isGlobal: true,
     }),
     TenantModule,
+    UserModule,
     TypeOrmModule.forRoot(typeOrmConfig),
   ],
   controllers: [AppController],
@@ -24,9 +26,8 @@ export class AppModule {
     consumer
       .apply(TenantResolverMiddleware)
       .exclude(
-        { path: "api/v1/tenants", method: RequestMethod.POST },
-        { path: "api/v1/tenants", method: RequestMethod.GET },
-        { path: "api/v1/tenants/(.*)", method: RequestMethod.GET },
+        { path: "tenants", method: RequestMethod.POST },
+        { path: "tenants", method: RequestMethod.GET },
       )
       .forRoutes("*");
   }

@@ -49,7 +49,7 @@ export class TenantResolverMiddleware implements NestMiddleware {
       // Get tenant-specific database connection
       const tenantConnection =
         await this.tenantConnectionManager.getTenantConnection(
-          tenant.schema_name,
+          tenant.schemaName,
         );
 
       // Attach tenant info to request

@@ -3,6 +3,7 @@ import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { Tenant } from "src/database/entity/tenant.entity";
 import { EntityManager, Repository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
+import { createTenantDto } from "./tenent.dto";
 
 @Injectable()
 export class TenantService {
@@ -13,8 +14,8 @@ export class TenantService {
     private entityManager: EntityManager,
   ) {}
 
-  async createTenant(name: string, subdomain: string): Promise<any> {
-    const schemaName = `tenant_${subdomain.toLowerCase()}`;
+  async createTenant(createTenantDto: createTenantDto): Promise<any> {
+    const schemaName = `tenant_${createTenantDto.subdomain.toLowerCase()}`;
 
     // Validate schema name (only alphanumeric and underscore)
     if (!/^[a-z0-9_]+$/.test(schemaName)) {
@@ -49,6 +50,8 @@ export class TenantService {
   }
 
   async findTenantById(id: string): Promise<Tenant | null> {
-    return await this.tenantRepository.findOne({});
+    return await this.tenantRepository.findOne({
+      where: { id },
+    });
   }
 }
