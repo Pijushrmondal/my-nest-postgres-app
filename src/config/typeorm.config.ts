@@ -8,7 +8,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USER || "postgres",
   password: process.env.DB_PASSWORD || "postgres",
   database: process.env.DB_NAME || "blive",
-  synchronize: false,
+  synchronize: true,
   entities: ["dist/database/entity/public/*.entity.js"],
-  logging: false,
+  logging: true,
 };

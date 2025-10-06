@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { UserService } from "./user.service";
-import { User } from "src/database/entity/tenant-entity/user.entity";
+import { User } from "src/database/entity/tenant/user.entity";
 
 @ApiTags("Users")
 @Controller("users")

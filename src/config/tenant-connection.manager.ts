@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { ConfigService } from "@nestjs/config";
-import { User } from "../database/entity/tenant-entity/user.entity";
+import { User } from "../database/entity/tenant/user.entity";
 
 @Injectable()
 export class TenantConnectionManager {
@@ -9,9 +9,9 @@ export class TenantConnectionManager {
 
   constructor(private configService: ConfigService) {}
 
-  async getTenantConnection(schemaName: string): Promise<DataSource> {
-    if (this.connections.has(schemaName)) {
-      const connection = this.connections.get(schemaName);
+  async getTenantConnection(tenantId: string): Promise<DataSource> {
+    if (this.connections.has(tenantId)) {
+      const connection = this.connections.get(tenantId);
       if (connection && connection.isInitialized) {
         return connection;
       }
@@ -23,12 +23,13 @@ export class TenantConnectionManager {
       port: this.configService.get("DB_PORT"),
       username: this.configService.get("DB_USER"),
       password: this.configService.get("DB_PASSWORD"),
-      database: this.configService.get("DB_NAME"),
-      schema: schemaName,
-      entities: [User],
-      synchronize: process.env.NODE_ENV !== "production", // Only in development
-      logging: false,
+      database: "tenant-sass-db",
+      entities: ["dist/database/entity/tenant/*.entity.js"],
+      synchronize: true,
+      logging: true,
     };
+
+    console.log(connectionOptions);
 
     const connection = new DataSource(connectionOptions);
     await connection.initialize();
@@ -38,23 +39,23 @@ export class TenantConnectionManager {
       await connection.synchronize();
     }
 
-    this.connections.set(schemaName, connection);
+    this.connections.set(tenantId, connection);
     return connection;
   }
 
-  async closeTenantConnection(schemaName: string): Promise<void> {
-    if (this.connections.has(schemaName)) {
-      const connection = this.connections.get(schemaName);
+  async closeTenantConnection(tenantId: string): Promise<void> {
+    if (this.connections.has(tenantId)) {
+      const connection = this.connections.get(tenantId);
       if (connection && connection.isInitialized) {
         await connection.destroy();
       }
-      this.connections.delete(schemaName);
+      this.connections.delete(tenantId);
     }
   }
 
   async closeAllConnections(): Promise<void> {
-    const promises = Array.from(this.connections.keys()).map((schemaName) =>
-      this.closeTenantConnection(schemaName),
+    const promises = Array.from(this.connections.keys()).map((tenantId) =>
+      this.closeTenantConnection(tenantId),
     );
     await Promise.all(promises);
   }

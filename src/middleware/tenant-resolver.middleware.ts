@@ -38,8 +38,6 @@ export class TenantResolverMiddleware implements NestMiddleware {
       let tenant;
       if (tenantId) {
         tenant = await this.tenantService.findTenantById(tenantId);
-      } else if (subdomain) {
-        tenant = await this.tenantService.findTenantBySubdomain(subdomain);
       }
 
       if (!tenant) {
@@ -48,9 +46,7 @@ export class TenantResolverMiddleware implements NestMiddleware {
 
       // Get tenant-specific database connection
       const tenantConnection =
-        await this.tenantConnectionManager.getTenantConnection(
-          tenant.schemaName,
-        );
+        await this.tenantConnectionManager.getTenantConnection(tenant.id);
 
       // Attach tenant info to request
       req.tenant = {

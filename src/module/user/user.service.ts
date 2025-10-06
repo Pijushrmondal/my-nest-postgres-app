@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { TenantAwareService } from "src/common/tenant-aware.service";
-import { User } from "src/database/entity/tenant-entity/user.entity";
+import { User } from "src/database/entity/tenant/user.entity";
 
 @Injectable()
 export class UserService {
