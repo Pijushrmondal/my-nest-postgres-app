@@ -10,5 +10,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: process.env.DB_NAME || "blive",
   synchronize: false,
   entities: ["dist/database/entity/*.entity.js"],
-  logging: true,
+  logging: false,
 };
