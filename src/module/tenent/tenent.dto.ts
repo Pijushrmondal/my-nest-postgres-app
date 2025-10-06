@@ -46,3 +46,8 @@ export class CreateTenantDto {
   @Type(() => CreateTenantDatabaseConfigDto)
   databaseConfig: CreateTenantDatabaseConfigDto;
 }
+
+export class GetTenantDto {
+  @IsString()
+  id: string;
+}

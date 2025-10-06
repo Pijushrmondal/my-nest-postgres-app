@@ -8,7 +8,7 @@ import { ConfigModule } from "@nestjs/config";
 import { TenantConnectionManager } from "./config/tenant-connection.manager";
 import { TenantResolverMiddleware } from "./middleware/tenant-resolver.middleware";
 import { UserModule } from "./module/user/user.module";
-import { TenantDatabaseConfigModule } from "./module/tenant_database_config/tenant.module";
+import { TenantDatabaseConfigModule } from "./module/tenant_database_config/tenant_db_config.module";
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ export class AppModule {
     consumer
       .apply(TenantResolverMiddleware)
       .exclude(
-        { path: "tenants", method: RequestMethod.ALL },
+        { path: "tenants/(.*)", method: RequestMethod.ALL },
         { path: "tenant_db_config", method: RequestMethod.ALL },
       )
       .forRoutes("*");

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { TenantDatabaseConfigController } from "./tenant.controller";
+import { TenantDatabaseConfigController } from "./tenant_db_config.controller";
 import { TenantDatabaseConfigService } from "./tenant.service";
 import { Tenant } from "src/database/entity/public/tenant.entity";
 import { TenantDatabaseConfig } from "src/database/entity/public/tenant_database_config.entity";

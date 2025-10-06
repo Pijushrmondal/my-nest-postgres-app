@@ -2,12 +2,17 @@ import { Injectable } from "@nestjs/common";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { ConfigService } from "@nestjs/config";
 import { User } from "../database/entity/tenant/user.entity";
+import { TenantDatabaseConfigService } from "src/module/tenant_database_config/tenant.service";
+import { TenantService } from "src/module/tenent/tenant.service";
 
 @Injectable()
 export class TenantConnectionManager {
   private connections = new Map<string, DataSource>();
 
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private readonly TenantService: TenantService,
+  ) {}
 
   async getTenantConnection(tenantId: string): Promise<DataSource> {
     if (this.connections.has(tenantId)) {
@@ -17,13 +22,18 @@ export class TenantConnectionManager {
       }
     }
 
+    const tenantDbConfig = await this.TenantService.findTenantById(tenantId);
+    if (!tenantDbConfig) {
+      throw new Error("Unable to find Db config");
+    }
+    console.log(tenantDbConfig);
     const connectionOptions: DataSourceOptions = {
       type: "postgres",
-      host: this.configService.get("DB_HOST"),
-      port: this.configService.get("DB_PORT"),
-      username: this.configService.get("DB_USER"),
-      password: this.configService.get("DB_PASSWORD"),
-      database: "tenant-sass-db",
+      host: tenantDbConfig.databaseConfig.host,
+      port: tenantDbConfig.databaseConfig.port,
+      username: tenantDbConfig.databaseConfig.username,
+      password: tenantDbConfig.databaseConfig.password,
+      database: tenantDbConfig.databaseConfig.databaseName,
       entities: ["dist/database/entity/tenant/*.entity.js"],
       synchronize: true,
       logging: true,

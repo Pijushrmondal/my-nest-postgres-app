@@ -10,8 +10,6 @@ export class TenantService {
   constructor(
     @InjectRepository(Tenant)
     private tenantRepository: Repository<Tenant>,
-    @InjectEntityManager()
-    private entityManager: EntityManager,
   ) {}
 
   async createTenant(createTenantDto: CreateTenantDto): Promise<any> {
@@ -23,12 +21,6 @@ export class TenantService {
     return await this.tenantRepository.find({});
   }
 
-  private async createTenantSchema(schemaName: string): Promise<void> {
-    await this.entityManager.query(
-      `CREATE SCHEMA IF NOT EXISTS "${schemaName}"`,
-    );
-  }
-
   async findTenantBySubdomain(subdomain: string): Promise<Tenant | null> {
     return await this.tenantRepository.findOne({});
   }
@@ -36,6 +28,7 @@ export class TenantService {
   async findTenantById(id: string): Promise<Tenant | null> {
     return await this.tenantRepository.findOne({
       where: { id },
+      relations: ["databaseConfig"], // 👈 include the relation here
     });
   }
 }
