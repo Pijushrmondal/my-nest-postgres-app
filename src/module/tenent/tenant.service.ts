@@ -3,7 +3,7 @@ import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 import { Tenant } from "src/database/entity/tenant.entity";
 import { EntityManager, Repository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
-import { createTenantDto } from "./tenent.dto";
+import { CreateTenantDto } from "./tenent.dto";
 
 @Injectable()
 export class TenantService {
@@ -14,24 +14,8 @@ export class TenantService {
     private entityManager: EntityManager,
   ) {}
 
-  async createTenant(createTenantDto: createTenantDto): Promise<any> {
-    const schemaName = `tenant_${createTenantDto.subdomain.toLowerCase()}`;
-
-    // Validate schema name (only alphanumeric and underscore)
-    if (!/^[a-z0-9_]+$/.test(schemaName)) {
-      throw new Error("Invalid schema name");
-    }
-
-    // Create schema in database
-    await this.createTenantSchema(schemaName);
-
-    // Save tenant record
-    const tenant = await this.tenantRepository.save({
-      name: "acme-corp",
-      schemaName: "acme_corp_schema",
-    });
-    console.log(tenant.id); // <-- auto-generated UUID
-
+  async createTenant(createTenantDto: CreateTenantDto): Promise<any> {
+    const tenant = this.tenantRepository.create(createTenantDto);
     return await this.tenantRepository.save(tenant);
   }
 
