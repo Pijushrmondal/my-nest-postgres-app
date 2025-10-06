@@ -7,7 +7,6 @@ import {
   OneToMany,
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Project } from "./project.entity";
 
 @Entity()
 export class User {
@@ -33,10 +32,6 @@ export class User {
   @ApiProperty({ example: "active", description: "User status" })
   @Column({ default: "active", length: 20 })
   status: string;
-
-  @ApiProperty({ description: "User projects" })
-  @OneToMany(() => Project, (project) => project.user)
-  projects: Project[];
 
   @CreateDateColumn({ name: "created_at" })
   createdAt: Date;

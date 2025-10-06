@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { ConfigService } from "@nestjs/config";
-import { User } from "../database/entity/user.entity";
-import { Project } from "../database/entity/project.entity";
+import { User } from "../database/entity/tenant-entity/user.entity";
 
 @Injectable()
 export class TenantConnectionManager {
@@ -26,7 +25,7 @@ export class TenantConnectionManager {
       password: this.configService.get("DB_PASSWORD"),
       database: this.configService.get("DB_NAME"),
       schema: schemaName,
-      entities: [User, Project],
+      entities: [User],
       synchronize: process.env.NODE_ENV !== "production", // Only in development
       logging: false,
     };

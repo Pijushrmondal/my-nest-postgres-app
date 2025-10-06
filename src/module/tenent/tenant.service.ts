@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
-import { Tenant } from "src/database/entity/tenant.entity";
 import { EntityManager, Repository } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import { CreateTenantDto } from "./tenent.dto";
+import { Tenant } from "src/database/entity/public/tenant.entity";
 
 @Injectable()
 export class TenantService {
