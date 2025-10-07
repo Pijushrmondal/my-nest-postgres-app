@@ -8,12 +8,8 @@ import {
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
-@Entity()
+@Entity("user_temp")
 export class User {
-  @ApiProperty({
-    example: "123e4567-e89b-12d3-a456-426614174000",
-    description: "User UUID",
-  })
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
