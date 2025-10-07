@@ -9,11 +9,14 @@ import {
 import { ApiProperty } from "@nestjs/swagger";
 
 @Entity("user_temp")
-export class User {
+export class UserTemp {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ApiProperty({ example: "john.doe@example.com", description: "User email" })
+  @ApiProperty({
+    example: "john.doe@example.com",
+    description: "UserTemp email",
+  })
   @Column({ unique: true, length: 255 })
   email: string;
 
@@ -21,11 +24,11 @@ export class User {
   @Column({ name: "full_name", length: 255 })
   fullName: string;
 
-  @ApiProperty({ example: "admin", description: "User role" })
+  @ApiProperty({ example: "admin", description: "UserTemp role" })
   @Column({ default: "user", length: 50 })
   role: string;
 
-  @ApiProperty({ example: "active", description: "User status" })
+  @ApiProperty({ example: "active", description: "UserTemp status" })
   @Column({ default: "active", length: 20 })
   status: string;
 

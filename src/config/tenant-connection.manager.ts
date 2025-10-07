@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { ConfigService } from "@nestjs/config";
-import { User } from "../database/entity/tenant/user.entity";
+import { UserTemp } from "../database/entity/tenant/user.temp.entity";
 import { TenantDatabaseConfigService } from "src/module/tenant_database_config/tenant.service";
 import { TenantService } from "src/module/tenent/tenant.service";
 

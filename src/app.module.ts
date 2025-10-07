@@ -28,7 +28,9 @@ export class AppModule {
     consumer
       .apply(TenantResolverMiddleware)
       .exclude(
-        { path: "tenants/(.*)", method: RequestMethod.ALL },
+        "tenants/(.*)",
+        { path: "tenants", method: RequestMethod.ALL },
+        "tenant_db_config/(.*)",
         { path: "tenant_db_config", method: RequestMethod.ALL },
       )
       .forRoutes("*");

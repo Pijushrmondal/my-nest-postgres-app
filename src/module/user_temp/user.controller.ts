@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { UserService } from "./user.service";
-import { User } from "src/database/entity/tenant/user.entity";
+import { UserTemp } from "src/database/entity/tenant/user.temp.entity";
 
 @ApiTags("Users")
 @Controller("users")
@@ -18,7 +18,7 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: "Create a new user in tenant context" })
-  async createUser(@Body() userData: Partial<User>) {
+  async createUser(@Body() userData: Partial<UserTemp>) {
     return await this.userService.createUser(userData);
   }
 
@@ -39,6 +39,6 @@ export class UserController {
   @ApiOperation({ summary: "Delete user in tenant context" })
   async deleteUser(@Param("id") id: string) {
     await this.userService.deleteUser(id);
-    return { message: "User deleted successfully" };
+    return { message: "UserTemp deleted successfully" };
   }
 }
